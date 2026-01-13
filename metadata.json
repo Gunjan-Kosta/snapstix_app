@@ -1,0 +1,7 @@
+{
+  "name": "SnapStix",
+  "description": "Transform your photos into vibrant, high-quality cartoon stickers using advanced AI. Create, collect, and share your personalized sticker library with ease.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
