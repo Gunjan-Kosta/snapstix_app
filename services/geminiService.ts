@@ -5,32 +5,27 @@ export const generateSticker = async (base64DataUrl: string, prompt: string, exp
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     
-    // Extract base64 and mime type accurately
     const mimeMatch = base64DataUrl.match(/^data:(image\/[a-zA-Z]+);base64,(.+)$/);
     if (!mimeMatch) {
-      throw new Error("Invalid image format. Please upload a valid image file.");
+      throw new Error("Invalid image format.");
     }
     
     const mimeType = mimeMatch[1];
     const base64Data = mimeMatch[2];
 
-    // Added explicit family-friendly and sticker-specific instructions to lower safety trigger rates
-    const fullPrompt = `Task: Create a professional 2D cartoon messaging sticker.
+    const fullPrompt = `Create a professional 2D messaging sticker.
     
-    SUBJECT CATEGORY: A family-friendly cartoon version of "${prompt || 'Friendly Character'}"
-    REQUIRED EMOTION: ${expression}
+    SUBJECT: ${prompt || 'Friendly Character'}
+    EXPRESSION: ${expression}
     
-    ART STYLE SPECS:
-    - High-quality digital vector art style.
-    - Thick, continuous white die-cut contour border (sticker style).
-    - Pure white background (no shadows or gradients on background).
-    - Clear, friendly facial features maintaining the subject's identity from the photo.
-    - Vibrant, saturated colors with clean cel-shading.
-    - Playful, expressive, and simplified character design.
-    - Safety: Ensure the result is wholesome, non-violent, and suitable for all ages.
-    - NO TEXT, NO REALISTIC TEXTURES, NO BACKGROUND SCENERY.`;
-
-    console.info(`SnapStix: Brewing ${expression} sticker for theme: ${prompt}`);
+    SPECIFICATIONS:
+    - Transparent background (critical for stickers).
+    - Thick, continuous white die-cut contour border.
+    - 2D vector-style illustration with bold, clean lines.
+    - Highly expressive features that work well at small sizes.
+    - Vibrant colors with clean cel-shading.
+    - No text, no realistic textures, no shadows on the background.
+    - Safety: Wholesome and suitable for global messaging apps.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
@@ -45,14 +40,10 @@ export const generateSticker = async (base64DataUrl: string, prompt: string, exp
           { text: fullPrompt },
         ],
       },
-      config: {
-        // Use default safety settings which are usually quite strict for images, 
-        // hence the prompt engineering above is crucial.
-      }
     });
 
     if (!response || !response.candidates?.[0]?.content?.parts) {
-      throw new Error("Empty response from AI model.");
+      throw new Error("AI could not generate the sticker.");
     }
 
     let imageUrl = '';
@@ -63,13 +54,11 @@ export const generateSticker = async (base64DataUrl: string, prompt: string, exp
       }
     }
 
-    if (!imageUrl) {
-      throw new Error("The model did not return an image part.");
-    }
+    if (!imageUrl) throw new Error("No image part returned.");
 
     return imageUrl;
   } catch (error: any) {
-    console.error(`Gemini Service Error (${expression}):`, error);
+    console.error(`Gemini Service Error:`, error);
     throw new Error(error.message || "Failed to generate sticker.");
   }
 };

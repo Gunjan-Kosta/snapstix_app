@@ -36,6 +36,8 @@ const Profile: React.FC = () => {
             { label: 'Cloud Sync', icon: '☁️', toggle: true },
             { label: 'Auto-Remove BG', icon: '✨', toggle: false },
             { label: 'Subscription Plan', icon: '💳', val: 'Gold Member' },
+            { label: 'App Version', icon: '🆔', val: 'v1.0.0' },
+            { label: 'Developer', icon: '👨‍💻', val: 'GUNJAN KOSTA' },
             { label: 'Help & Support', icon: '🎧' },
           ].map((item, i) => (
             <li key={i} className="flex items-center justify-between group cursor-pointer hover:bg-gray-50/50 p-2 rounded-xl transition-colors">
@@ -55,9 +57,14 @@ const Profile: React.FC = () => {
         </ul>
       </div>
 
-      <button className="w-full py-5 rounded-2xl bg-white border border-red-200 text-red-500 font-bold hover:bg-red-50 transition-all">
-        Logout
-      </button>
+      <div className="text-center space-y-2">
+        <button className="w-full py-5 rounded-2xl bg-white border border-red-200 text-red-500 font-bold hover:bg-red-50 transition-all">
+          Logout
+        </button>
+        <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em]">
+          Designed & Developed with ❤️ by GUNJAN KOSTA
+        </p>
+      </div>
     </div>
   );
 };
