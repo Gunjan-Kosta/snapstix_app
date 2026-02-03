@@ -43,17 +43,26 @@
 <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.35.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 </head>
 <body class="bg-mesh min-h-screen">
     <div id="root"></div>
-    <!-- Bootstrapping the application -->
-    <script type="module" src="./index.tsx"></script>
+
+    <!-- 
+      The 'run' script from esm.sh automatically finds scripts with 
+      type="text/tsx", transpiles them, and executes them.
+    -->
+    <script type="module" src="https://esm.sh/run"></script>
+
+    <!-- Entry point for the React application -->
+    <script type="text/tsx" src="./index.tsx"></script>
 </body>
 </html>
