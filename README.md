@@ -27,8 +27,8 @@ To ensure your stickers look professional in actual conversations, SnapStix perf
 ### 3. Direct Native Sharing
 Integrated with the **Web Share API**, SnapStix allows you to skip the "save to gallery, then upload" hurdle. You can tap the chat icon to trigger your phone's native share sheet and send your sticker directly into a WhatsApp, Telegram, or iMessage thread.
 
-### 4. Smart Local Storage
-Your sticker collection is yours to keep. The app features a **Persistent Gallery** that uses your browser's local storage. We've implemented **Intelligent Quota Management** that automatically prunes heavy source data while keeping the lightweight stickers, ensuring you never run out of space.
+### 4. Smart Local Storage & Downloads
+Your sticker collection is yours to keep. The app features a **Downloads Hub** that uses your browser's local storage. We've implemented **Intelligent Quota Management** that automatically prunes heavy source data while keeping the lightweight stickers, ensuring you never run out of space.
 
 ### 5. AI-Powered Artistry
 Leveraging the **Google Gemini 2.5 Flash** model, SnapStix uses advanced Vision-to-Image prompting. It recognizes facial features and recreates them using "Cel-Shaded" vector logic, ensuring the result is a recognizable but fun cartoon version of the original "Snap."
@@ -39,6 +39,6 @@ Leveraging the **Google Gemini 2.5 Flash** model, SnapStix uses advanced Vision-
 1. **Snap**: Upload a clear photo of a person or character.
 2. **Theme**: Enter a theme (e.g., "Astronaut," "Cyberpunk," or "Doctor").
 3. **Brew**: Hit "Generate Pack" and watch the AI work its magic.
-4. **Share**: Download the WEBP files or share them directly to your favorite chat app.
+4. **Download & Share**: Access your pack in the **Downloads** page to save the WEBP files or share them directly to your favorite chat app.
 
 *Snap it. Stix it. Share it. That's SnapStix.*

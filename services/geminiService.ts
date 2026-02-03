@@ -1,6 +1,7 @@
 
 import { GoogleGenAI } from "@google/genai";
 
+// Function to generate a sticker using the Gemini 2.5 Flash Image model
 export const generateSticker = async (base64DataUrl: string, prompt: string, expression: string = "Happy"): Promise<string> => {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -13,19 +14,19 @@ export const generateSticker = async (base64DataUrl: string, prompt: string, exp
     const mimeType = mimeMatch[1];
     const base64Data = mimeMatch[2];
 
-    const fullPrompt = `Create a professional 2D messaging sticker.
+    const fullPrompt = `Create a high-quality 2D messaging sticker of the person in the image.
     
-    SUBJECT: ${prompt || 'Friendly Character'}
+    THEME/STYLE: ${prompt || 'Professional Cartoon Illustration'}
     EXPRESSION: ${expression}
     
-    SPECIFICATIONS:
-    - Transparent background (critical for stickers).
-    - Thick, continuous white die-cut contour border.
-    - 2D vector-style illustration with bold, clean lines.
-    - Highly expressive features that work well at small sizes.
-    - Vibrant colors with clean cel-shading.
-    - No text, no realistic textures, no shadows on the background.
-    - Safety: Wholesome and suitable for global messaging apps.`;
+    CRITICAL STICKER SPECIFICATIONS:
+    1. SUBJECT: Transform the person from the uploaded photo into a clean, 2D vector-style cartoon character.
+    2. BORDER: A thick, solid white continuous die-cut contour border must surround the entire character.
+    3. BACKGROUND: Must be perfectly empty/neutral. 
+    4. ART STYLE: Use vibrant colors, bold clean outlines, and simple cel-shading.
+    5. EXPRESSION: The character must clearly show a ${expression} expression.
+    6. NO TEXT: Do not include any words, letters, or symbols.
+    7. COMPOSITION: Center the character, full head and shoulders visible.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
@@ -43,7 +44,7 @@ export const generateSticker = async (base64DataUrl: string, prompt: string, exp
     });
 
     if (!response || !response.candidates?.[0]?.content?.parts) {
-      throw new Error("AI could not generate the sticker.");
+      throw new Error("Empty response from AI Studio.");
     }
 
     let imageUrl = '';
@@ -54,11 +55,29 @@ export const generateSticker = async (base64DataUrl: string, prompt: string, exp
       }
     }
 
-    if (!imageUrl) throw new Error("No image part returned.");
+    if (!imageUrl) {
+       const feedback = response.text;
+       if (feedback) throw new Error(feedback);
+       throw new Error("Sticker image not found in response.");
+    }
 
     return imageUrl;
   } catch (error: any) {
-    console.error(`Gemini Service Error:`, error);
-    throw new Error(error.message || "Failed to generate sticker.");
+    console.error(`Gemini Service Error Detail:`, error);
+    
+    // Robust rate limit detection
+    const errorMsg = error.message || "";
+    const errorStr = JSON.stringify(error);
+    const isRateLimit = 
+      errorMsg.includes("429") || 
+      errorMsg.includes("RESOURCE_EXHAUSTED") || 
+      errorStr.includes("429") || 
+      errorStr.includes("RESOURCE_EXHAUSTED");
+
+    if (isRateLimit) {
+      throw new Error("RATE_LIMIT");
+    }
+    
+    throw error;
   }
 };

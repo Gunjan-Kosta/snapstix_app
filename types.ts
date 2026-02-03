@@ -17,6 +17,6 @@ export interface AppState {
 export enum View {
   HOME = 'home',
   CREATE = 'create',
-  GALLERY = 'gallery',
+  DOWNLOADS = 'downloads',
   PROFILE = 'profile'
 }
